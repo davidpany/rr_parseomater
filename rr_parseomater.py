@@ -15,7 +15,12 @@ Author
     Twitter: @DavidPany
 
 Current Version
-    1.0
+    1.1
+    
+ChangeLog
+    1.1
+        [x] Minor bug where user account name was very long in file header
+        [x] MasterTimeline extension changed to .xls (it's a TSV file)
     
 Description
     rr_parseomater.py wraps around RegRipper's (https://github.com/keydet89/RegRipper2.8)
@@ -100,7 +105,7 @@ def RunTimelinePy(FilePath,file,ReportDir,username=None):
 
 def GetRegUsername(filename):
     #Extract username from partial file path in beginning of reg files if available
-    usernameMO = re.compile("([^\\\\]*)(\\\\NTUSER)", re.IGNORECASE)
+    usernameMO = re.compile("([^a-z0-9\ \.]*)(\\\\NTUSER)", re.IGNORECASE)
     
     handle = open(filename)
     string = handle.read(300).replace("\x00","")
@@ -165,7 +170,7 @@ def main():
             MasterTimeline = MasterTimeline.union(RunTimelinePy(FilePath,file,ReportDir))
     
     #Create a master timeline output file in TSV format
-    MasterTimelineFile = open("{}\MasterTimeline.txt".format(ReportDir),"w")  
+    MasterTimelineFile = open("{}\MasterTimeline.xls".format(ReportDir),"w")  
     MasterTimelineFile.write('"Time"\t"Path"\n')
     for entry in MasterTimeline:
         if len(entry) > 20 and "(All) Dumps entire hive" not in entry:
