@@ -15,12 +15,11 @@ Author
     Twitter: @DavidPany
 
 Current Version
-    1.1
+    1.2
     
 ChangeLog
-    1.1
-        [x] Minor bug where user account name was very long in file header
-        [x] MasterTimeline extension changed to .xls (it's a TSV file)
+    1.2
+        [x] Fixed regex
     
 Description
     rr_parseomater.py wraps around RegRipper's (https://github.com/keydet89/RegRipper2.8)
@@ -105,17 +104,17 @@ def RunTimelinePy(FilePath,file,ReportDir,username=None):
 
 def GetRegUsername(filename):
     #Extract username from partial file path in beginning of reg files if available
-    usernameMO = re.compile("([^a-z0-9\ \.]*)(\\\\NTUSER)", re.IGNORECASE)
+    usernameMO = re.compile("([\!\@\#\$\%\^\&\(\)\-\_\=\+\[\]\{\}\'\~\;\.\,a-z0-9]{1,30})(\\\\NTUSER)", re.IGNORECASE)
     
     handle = open(filename)
     string = handle.read(300).replace("\x00","")
+    handle.close()
     
-    usernameMatch = re.search(usernameMO, string)
     try:
-        return usernameMatch.groups()[0]
-    except AttributeError:
-        return None
-    handle.close()		
+        username_match = re.search(usernameMO, string)
+        return username_match.groups()[0]
+    except:
+        return None		
     
 def CleanFile(filename):
     #Remove "no finding" plugin results from the ouput text files
