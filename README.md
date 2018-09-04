@@ -7,7 +7,7 @@ Mandiant (FireEye) 2016 <br />
 Twitter: @DavidPany <br />
 
 ##Current Version
-1.0
+1.2
     
 ##Description
 rr_parseomater.py wraps around RegRipper's (https://github.com/keydet89/RegRipper2.8) rip.exe executable to easily parse and timeline all NTUSER.DAT, USRCLASS.DAT, and S-Registry files (SAM, SOFTWARE, SECURITY, SYSTEM).
